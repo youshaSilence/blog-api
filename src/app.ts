@@ -1,13 +1,18 @@
 import Koa from 'koa';
+import bodyParser from 'koa-bodyparser';
 
-function main() {
+import router from './routes/index';
+import Config from './config';
+
+const config = Config();
+
+async function main() {
     const app = new Koa();
+    app.use(bodyParser());
 
-    app.use(async (ctx: { body: string; }) => {
-        ctx.body = 'hello world';
-    });
+    app.use(router.routes());
 
-    app.listen(3000);
+    app.listen(config.port);
 }
 
 main();
